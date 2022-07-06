@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+<meta name="google-signin-client_id" content="769480983049-cmo12hhodm1qbgr9kmdh8qoehdnr9hcm.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<link rel="stylesheet" href="style.css"> 
+<body onload="loading()">
+    <div id="loading"></div>
+  <%- include('./partials/header.ejs'); -%>
+<div class="container">
+    <div class="row ">
+        <div class="thumbnail login-padding">
+            <h1 style="text-align:center;"> Register a <em> New User </em> </h1>
+            <div style="width:50%; margin: 25px auto">
+                <form action="/register" method="POST" id="Loginform">
+                    <div class="form-group">
+                        <div class="form-group">
+                        <input class="form-control" type="text" id="EMAIL" name="username" placeholder="Username" required="required">
+                        <input class="form-control" type="password" id="PASS" name="password" placeholder="Password" required="required">
+                      </div><h5 style="color: red;">Please Check details you entered. Contact Customer Care<br>*Note*Your Username Must Be Unique</h5>
+
+                    <div class="form-group"><br>
+                        <button id="loginBtn" class="btn btn-lg btn-primary btn-block">Sign Up</button>
+                    </div>
+                </form>
+                <a class="btn btn-lg btn-primary btn-block" href="/">Go back</a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="bg-warning">       
+    <%- include('./partials/footer.ejs'); -%></div>
+
+    <script>
+        var preloader = document.getElementById('loading'); 
+        function loading() {
+          preloader.style.display ='none';
+        }
+      </script>
+      </body>
