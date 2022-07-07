@@ -20,27 +20,53 @@
     <script>
         $(document).ready(
             function() {
-                $("#tabs").tabs();
+                $("#tabs").tabs(function(){
+                    $("#tabs").tabs("refresh");
+                });
                 $("ul").sortable();
                 $("ol").sortable();
+                $("#taskbtn").click(function(){
+                $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
+                    "add new task":function(){
+                        $("#tabs").tabs("refresh");
+                        var active = $("#tabs").tabs("option","active");
+                        var nthchild = $("#ul > li:nth-child("+ active +") > a").attr("href");
+                        alert(nthchild);
+                        var taskname = $("#taskname").val();
+                        $("<li class='liborder'><a href='#"+taskname+"'>"+taskname+"</a></li>").appendTo("#ol");
+                        $("#tabs").tabs("refresh");
+                        $("#taskname").val("");
+                        $(this).dialog("close");
+                    },
+                    "cancel":function(){
+                        $(this).dialog("close");
+                    }
+                }});})
+                
                 $("#projectbtn").click(function(){
                 $("#project-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
                     "add new project":function(){
-                        alert("new");
+                        $("#tabs").tabs("refresh");
+                        var projectname = $("#projectname").val();
+                        $("<li style='width: auto;'><a href='#"+projectname+"'>"+projectname+"</a></li>").appendTo("#ul");
+                        $("#tabs").tabs("refresh");
+                        $("#projectname").val("");
+                        $(this).dialog("close");
                     },
                     "cancel":function(){
-                        alert("cancel");
+                        $(this).dialog("close");
                     }
                 }});})
+                
         });
         </script>
   <div id="tabs"   style="width:650px;"> 
     <button id="projectbtn" style="float: right;">Add Projects</button>
     <ul id="ul">
-      <li style="width: auto;"><a href="#tabs-1">Personal</a></li>
-      <li style="width:auto;"><a href="#tabs-2">Work</a></li>
+      <li style="width: auto;"><a href="#Personal">Personal</a></li>
+      <li style="width:auto;"><a href="#Work">Work</a></li>
     </ul>
-    <div id="tabs-1">
+    <div id="Personal">
         <ol id="ol">
 
             <li class="liborder"><input type="checkbox" >task1 for Personal</li>
@@ -48,7 +74,7 @@
             <li class="liborder"><input type="checkbox">task3</li>
         </ol>
     </div>
-    <div id="tabs-2">
+    <div id="Work">
         <ol id="ol">
             <li class="liborder"><input type="checkbox" >task1 for work</li>
              <li class="liborder"><input type="checkbox">task2</li>
@@ -58,6 +84,10 @@
     <div id="project-dialog" style="display:none;">
         <label for="tabs">Project name:</label><input id="projectname" type="text">
     </div>
+    <div id="task-dialog" style="display:none;">
+        <label for="tabs">Task name:</label><input id="taskname" type="text">
+    </div>
+    <button id="taskbtn" style="float: right;">Add Task</button>
   </div>
 </body>
 </html>
