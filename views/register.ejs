@@ -30,10 +30,9 @@
                     "add new task":function(){
                         $("#tabs").tabs("refresh");
                         var active = $("#tabs").tabs("option","active");
-                        var nthchild = $("#ul > li:nth-child("+ active +") > a").attr("href");
-                        alert(nthchild);
+                        var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
                         var taskname = $("#taskname").val();
-                        $("<li class='liborder'><a href='#"+taskname+"'>"+taskname+"</a></li>").appendTo("#ol");
+                        $("#ol "+ nthchild).append("<li class='liborder'><a href='#"+taskname+"'>"+taskname+"</a></li>");
                         $("#tabs").tabs("refresh");
                         $("#taskname").val("");
                         $(this).dialog("close");
