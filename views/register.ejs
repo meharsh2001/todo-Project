@@ -28,6 +28,12 @@
                 $("#taskbtn").click(function(){
                 $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
                     "add new task":function(){
+                        $("#tabs").tabs("refresh");
+                        var active = $("#tabs").tabs("option","active");
+                        var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
+                        var taskname = $("#taskname").val();
+                        $("#tabs >" + nthchild +"> #ol").append("<li class='liborder'><input type='checkbox'>"+taskname+"</li>");
+                        $("#taskname").val("");
                         $(this).dialog("close");
                     },
                     "cancel":function(){
@@ -61,7 +67,7 @@
     <div id="Personal">
         <ol id="ol">
 
-            <li class="liborder"><input type="checkbox" >task1 for Personal</li>
+            <li class="liborder"><input type="checkbox">task1 for Personal</li>
             <li class="liborder"><input type="checkbox">task2</li>
             <li class="liborder"><input type="checkbox">task3</li>
         </ol>
