@@ -1,40 +1,27 @@
 {
-  "name": "new",
+  "name": "todo",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "dependencies": {
-    "connect-flash": "^0.1.1",
-    "ejs": "^3.1.6",
-    "express": "^4.17.2",
-    "express-session": "^1.17.2",
-    "flash": "^1.1.0",
-    "method-override": "^3.0.0",
-    "mongoose": "^6.1.4",
-    "node": "^17.3.0",
-    "node-fetch": "^3.2.0",
-    "node-gyp": "^8.4.1",
-    "nodemon": "^2.0.15",
-    "npm-install-all": "^1.1.21",
-    "passport": "^0.5.2",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.1.0",
-    "redirect": "^0.2.0",
-    "requests": "^0.3.0",
-    "ssh2": "^1.5.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meharsh2001/Missing.git"
+    "url": "git+https://github.com/meharshjain/todo.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/meharsh2001/Missing/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/meharsh2001/Missing#readme"
+  "homepage": "",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "method-override": "^3.0.0"
+  }
 }

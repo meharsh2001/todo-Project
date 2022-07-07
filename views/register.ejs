@@ -1,38 +1,63 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
-<meta name="google-signin-client_id" content="769480983049-cmo12hhodm1qbgr9kmdh8qoehdnr9hcm.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<link rel="stylesheet" href="style.css"> 
-<body onload="loading()">
-    <div id="loading"></div>
-  <%- include('./partials/header.ejs'); -%>
-<div class="container">
-    <div class="row ">
-        <div class="thumbnail login-padding">
-            <h1 style="text-align:center;"> Register a <em> New User </em> </h1>
-            <div style="width:50%; margin: 25px auto">
-                <form action="/register" method="POST" id="Loginform">
-                    <div class="form-group">
-                        <div class="form-group">
-                        <input class="form-control" type="text" id="EMAIL" name="username" placeholder="Username" required="required">
-                        <input class="form-control" type="password" id="PASS" name="password" placeholder="Password" required="required">
-                      </div>
-                    <div class="form-group"><br>
-                        <button id="loginBtn" class="btn btn-lg btn-primary btn-block">Sign Up</button>
-                    </div>
-                </form>
-                <a class="btn btn-lg btn-primary btn-block" href="/">Go back</a>
-            </div>
-        </div>
-    </div>
-    
-</div>
-<div class="bg-warning">       
-    <%- include('./partials/footer.ejs'); -%></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Tooltip - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
+  <title>TO DO</title>
+  <style>
+    .liborder { 
+        border: solid;
+        width: 300px; }
+    </style>
+</head>
+<body>
     <script>
-        var preloader = document.getElementById('loading'); 
-        function loading() {
-          preloader.style.display ='none';
-        }
-      </script>
-      </body>
+        $(document).ready(
+            function() {
+                $("#tabs").tabs();
+                $("ul").sortable();
+                $("ol").sortable();
+                $("#projectbtn").click(function(){
+                $("#project-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
+                    "add new project":function(){
+                        alert("new");
+                    },
+                    "cancel":function(){
+                        alert("cancel");
+                    }
+                }});})
+        });
+        </script>
+  <div id="tabs"   style="width:650px;"> 
+    <button id="projectbtn" style="float: right;">Add Projects</button>
+    <ul id="ul">
+      <li style="width: auto;"><a href="#tabs-1">Personal</a></li>
+      <li style="width:auto;"><a href="#tabs-2">Work</a></li>
+    </ul>
+    <div id="tabs-1">
+        <ol id="ol">
+
+            <li class="liborder"><input type="checkbox" >task1 for Personal</li>
+            <li class="liborder"><input type="checkbox">task2</li>
+            <li class="liborder"><input type="checkbox">task3</li>
+        </ol>
+    </div>
+    <div id="tabs-2">
+        <ol id="ol">
+            <li class="liborder"><input type="checkbox" >task1 for work</li>
+             <li class="liborder"><input type="checkbox">task2</li>
+             <li class="liborder"><input type="checkbox">task3</li>
+       </ol>
+    </div>
+    <div id="project-dialog" style="display:none;">
+        <label for="tabs">Project name:</label><input id="projectname" type="text">
+    </div>
+  </div>
+</body>
+</html>
