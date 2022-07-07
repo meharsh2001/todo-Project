@@ -32,12 +32,8 @@
                         var active = $("#tabs").tabs("option","active");
                         var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
                         var taskname = $("#taskname").val();
-<<<<<<< HEAD
                         $("#tabs >" + nthchild +"> #ol").append("<li class='liborder'><input type='checkbox'>"+taskname+"</li>");
-=======
-                        $("#ol "+ nthchild).append("<li class='liborder'><a href='#"+taskname+"'>"+taskname+"</a></li>");
-                        $("#tabs").tabs("refresh");
->>>>>>> 9391ed973e76eee575467edbeb473e8ca8c85232
+                        alert(nthchild +" "+ taskname);
                         $("#taskname").val("");
                         $(this).dialog("close");
                     },
@@ -51,7 +47,8 @@
                     "add new project":function(){
                         $("#tabs").tabs("refresh");
                         var projectname = $("#projectname").val();
-                        $("<li style='width: auto;'><a href='#"+projectname+"'>"+projectname+"</a></li>").appendTo("#ul");
+                        var replacename = projectname.split(" ").join("_");
+                        $("<li style='width: auto;'><a href='#"+replacename+"'>"+projectname+"</a></li>").appendTo("#ul");
                         $("#tabs").tabs("refresh");
                         $("#projectname").val("");
                         $(this).dialog("close");
