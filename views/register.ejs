@@ -28,12 +28,6 @@
                 $("#taskbtn").click(function(){
                 $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
                     "add new task":function(){
-                        $("#tabs").tabs("refresh");
-                        var active = $("#tabs").tabs("option","active");
-                        var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
-                        var taskinput = $("#taskname").val();
-                        $("#tabs" + nthchild).append("<li><input type='checkbox' >"+ taskinput  +"</li>");
-                        $("#taskname").val("");
                         $(this).dialog("close");
                     },
                     "cancel":function(){
