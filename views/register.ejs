@@ -1,96 +1,112 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Tooltip - Default functionality</title>
+  <title>jQuery UI Tabs - Simple manipulation</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  #dialog label, #dialog input { display:block; }
+  #dialog label { margin-top: 0.5em; }
+  #dialog input, #dialog textarea { width: 95%; }
+  #tabs { margin-top: 1em; }
+  #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+  #add_tab { cursor: pointer; }
+  </style>
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-
-  <title>TO DO</title>
-  <style>
-    .liborder { 
-        border: solid;
-        width: 300px; }
-    </style>
+  <script>
+  $( function() {
+    var tabTitle = $( "#tab_title" ),
+      tabContent = $( "#tab_content" ),
+      tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
+      tabCounter = 2;
+ 
+    var tabs = $( "#tabs" ).tabs();
+ 
+    // Modal dialog init: custom buttons and a "close" callback resetting the form inside
+    var dialog = $( "#dialog" ).dialog({
+      autoOpen: false,
+      modal: true,
+      buttons: {
+        Add: function() {
+          addTab();
+          $( this ).dialog( "close" );
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+        form[ 0 ].reset();
+      }
+    });
+ 
+    // AddTab form: calls addTab function on submit and closes the dialog
+    var form = dialog.find( "form" ).on( "submit", function( event ) {
+      addTab();
+      dialog.dialog( "close" );
+      event.preventDefault();
+    });
+ 
+    // Actual addTab function: adds new tab using the input from the form above
+    function addTab() {
+      var label = tabTitle.val() || "Tab " + tabCounter,
+        id = "tabs-" + tabCounter,
+        li = $( tabTemplate.replace( /#\{href\}/g, "#" + id ).replace( /#\{label\}/g, label ) ),
+        tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
+ 
+      tabs.find( ".ui-tabs-nav" ).append( li );
+      tabs.append( "<div id='" + id + "'><p>" + tabContentHtml + "</p></div>" );
+      tabs.tabs( "refresh" );
+      tabCounter++;
+    }
+ 
+    // AddTab button: just opens the dialog
+    $( "#add_tab" )
+      .button()
+      .on( "click", function() {
+        dialog.dialog( "open" );
+      });
+ 
+    // Close icon: removing the tab on click
+    tabs.on( "click", "span.ui-icon-close", function() {
+      var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+      $( "#" + panelId ).remove();
+      tabs.tabs( "refresh" );
+    });
+ 
+    tabs.on( "keyup", function( event ) {
+      if ( event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE ) {
+        var panelId = tabs.find( ".ui-tabs-active" ).remove().attr( "aria-controls" );
+        $( "#" + panelId ).remove();
+        tabs.tabs( "refresh" );
+      }
+    });
+  } );
+  </script>
 </head>
 <body>
-    <script>
-        $(document).ready(
-            function() {
-                $("#tabs").tabs(function(){
-                    $("#tabs").tabs("refresh");
-                });
-                $("ul").sortable();
-                $("ol").sortable();
-                $("#taskbtn").click(function(){
-                $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
-                    "add new task":function(){
-                        $("#tabs").tabs("refresh");
-                        var active = $("#tabs").tabs("option","active");
-                        var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
-                        var taskname = $("#taskname").val();
-<<<<<<< HEAD
-                        $("#tabs >" + nthchild +"> #ol").append("<li class='liborder'><input type='checkbox'>"+taskname+"</li>");
-=======
-                        $("#ol "+ nthchild).append("<li class='liborder'><a href='#"+taskname+"'>"+taskname+"</a></li>");
-                        $("#tabs").tabs("refresh");
->>>>>>> 9391ed973e76eee575467edbeb473e8ca8c85232
-                        $("#taskname").val("");
-                        $(this).dialog("close");
-                    },
-                    "cancel":function(){
-                        $(this).dialog("close");
-                    }
-                }});})
-                
-                $("#projectbtn").click(function(){
-                $("#project-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
-                    "add new project":function(){
-                        $("#tabs").tabs("refresh");
-                        var projectname = $("#projectname").val();
-                        $("<li style='width: auto;'><a href='#"+projectname+"'>"+projectname+"</a></li>").appendTo("#ul");
-                        $("#tabs").tabs("refresh");
-                        $("#projectname").val("");
-                        $(this).dialog("close");
-                    },
-                    "cancel":function(){
-                        $(this).dialog("close");
-                    }
-                }});})
-                
-        });
-        </script>
-  <div id="tabs"   style="width:650px;"> 
-    <button id="projectbtn" style="float: right;">Add Projects</button>
-    <ul id="ul">
-      <li style="width: auto;"><a href="#Personal">Personal</a></li>
-      <li style="width:auto;"><a href="#Work">Work</a></li>
-    </ul>
-    <div id="Personal">
-        <ol id="ol">
-
-            <li class="liborder"><input type="checkbox">task1 for Personal</li>
-            <li class="liborder"><input type="checkbox">task2</li>
-            <li class="liborder"><input type="checkbox">task3</li>
-        </ol>
-    </div>
-    <div id="Work">
-        <ol id="ol">
-            <li class="liborder"><input type="checkbox" >task1 for work</li>
-             <li class="liborder"><input type="checkbox">task2</li>
-             <li class="liborder"><input type="checkbox">task3</li>
-       </ol>
-    </div>
-    <div id="project-dialog" style="display:none;">
-        <label for="tabs">Project name:</label><input id="projectname" type="text">
-    </div>
-    <div id="task-dialog" style="display:none;">
-        <label for="tabs">Task name:</label><input id="taskname" type="text">
-    </div>
-    <button id="taskbtn" style="float: right;">Add Task</button>
+ 
+  <div id="dialog" style="display:none;" title="ADD A PROJECT">
+    <label for="tabs">Project name:</label><input id="tab_title" type="text">
+</div>
+<div id="task-dialog" style="display:none;" title="ADD A TASK">
+    <label for="tabs">Task name:</label><input id="taskname" type="text">
+</div>
+ 
+<button id="add_tab">Add Tab</button>
+ 
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Nunc tincidunt</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>
+  </ul>
+  <div id="tabs-1">
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
   </div>
+</div>
+ 
+ 
 </body>
-</html>
+</html

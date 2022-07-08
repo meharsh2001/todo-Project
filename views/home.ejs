@@ -1,5 +1,4 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -10,142 +9,98 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
+  <title>TO DO</title>
+  <style>
+    .liborder { 
+        border: solid;
+        width: 300px; }
+    </style>
 </head>
 <body>
-  #TOOLTIP
-  <script>
-    $(document).ready( function(){
-       $("#age1").tooltip();
-      $("#age2").tooltip();
-      $("#age3").tooltip({
-      hide: {
-        effect: "explode",
-        delay: 250
-      }
-    });
-    }) ; 
-    </script>
-<p><input id="age1" title="We ask for your age only for statistical purposes."></p>
-<p id="age2" title="We ask for your age only for statistical purposes.">something</p>
-<p id="age3" title="We ask for your age only for statistical purposes.">animation</p>
+    <script>
+        $(document).ready(
+            function() {
+                $("input[type=checkbox]").removeAttr("checked");
+                $("#tabs").tabs(function(){ $("#tabs").tabs("refresh"); });
+                $("ul").sortable();
+                $("ol").sortable(); 
+                $("#tabs").on("click","input[type=checkbox]",function(){
+                  $(this).closest("li").slideUp(function(){
+                    $(this).remove();
+                  });
+                });
+                $("#tabs").on("click","span.ui-icon-close",function(){
+                  var index = $(this).closest("li").index();
+                  var id = $("#ul > li:eq("+ index +") > a").attr("href");
+                  $("#ul > li:eq("+ index +") > a").remove();
+                  $(id).remove();
+                  $("#tabs").tabs("refresh");
 
- 
- 
-#draggable
-<style>
-  #draggable { width: 150px; height: 50px; padding: 0.5em; border-style: dotted; }
-  </style>  <script>
-  $(document).ready( function() {
-    $( "#draggable" ).draggable();
-  } );
-  </script> 
-<div id="draggable">
-  <p>Drag me around</p>
-</div>
- 
-#rezisable 
-<style>
-  #draggableq { width: 150px; height: 50px; padding: 0.5em; border-style: dotted; }
-  </style><script>
-  $(document).ready( function() {
-    $( "#draggableq" ).resizable();
-  } );
-  </script> 
-<div id="draggableq">
-  <p>rezise around</p>
-</div>
+                });
+                $("#taskbtn").click(function(){
+                $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
+                    "add new task":function(){
+                        $("#tabs").tabs("refresh");
+                        var active = $("#tabs").tabs("option","active");
+                        var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
+                        var taskname = $("#taskname").val();
+                        $("#tabs >" + nthchild).append("<li class='liborder'><input type='checkbox'>"+taskname+"</li>");
+                        $("#taskname").val("");
+                        $(this).dialog("close");
+                    },
+                    "cancel":function(){
+                        
+                        $("#taskname").val("");
+                        $(this).dialog("close");
+                    }
+                }});})
+                
+                $("#projectbtn").click(function(){
+                $("#project-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
+                    "add new project":function(){
+                        $("#tabs").tabs("refresh");
+                        var projectname = $("#projectname").val();
+                        var replacename = projectname.split(" ").join("_");
+                        $("<li style='width: auto;'><a href='#"+replacename+"'>"+projectname+"<span class='ui-icon ui-icon-close'></span></a></li>").appendTo("#ul");
+                       //mistake
+                        $("<ol id='"+replacename+"'></ol>").appendTo("#tabs");
+                        
+                        $("#tabs").tabs("refresh");
+                        $("#projectname").val("");
+                        $(this).dialog("close");
+                    },
+                    "cancel":function(){
+                        $("#projectname").val("");
+                        $(this).dialog("close");
+                    }
+                }});})
+                
+        });
+        </script>
+  <div id="tabs"   style="width:650px;"> 
+    <button id="projectbtn" style="float: right;">Add Projects</button>
+    <ul id="ul">
+      <li style="width: auto;"><a href="#Personal">Personal<span class="ui-icon ui-icon-close"></span></a></li>
+      <li style="width:auto;"><a href="#Work">Work<span class="ui-icon ui-icon-close"></span></a></li>
+    </ul>
+        <ol id="Personal">
 
-#sortable
-<script>
-  $(document).ready( function() {
-    $( "#sortable" ).sortable();
-  } );
-  </script>  <style>
-  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-  #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; width: 100px;}
-  </style>
-<ul id="sortable">
-  <li class="ui-state-default">Item 1</li>
-  <li class="ui-state-default">Item 2</li>
-  <li class="ui-state-default">Item 3</li>
-</ul>
-
-#autocomplete suggesstion box
-<script>
-  $(document).ready( function() {
-    var availableTags = [      "ActionScript",      "AppleScript",      "Asp",      "BASIC",
-      "C",      "C++",      "Clojure",      "COBOL",      "ColdFusion",      "Erlang",      "Fortran",
-      "Groovy",      "Haskell",      "Java",      "JavaScript",      "Lisp",      "Perl",      "PHP", 
-      "Python",      "Ruby",      "Scala",      "Scheme"    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
-    });
-  } );
-  </script> <br>
-  <input id="tags"> 
-  <br>
-#dialog
-<script>
-$(document).ready( function() {    
-    $("#dialogbtn").on("click",function(){
-      $( "#dialog" ).dialog();
-      $("#dialog").removeAttr("hidden");
-    });
-  } );
-  </script> <br>
-  <button class="btn" id="dialogbtn">Click Here</button> 
-<div id="dialog" title="Basic dialog"  hidden="hidden">
-  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the &apos;x&apos; icon.</p>
-</div> 
-<br>
-#bar
-<script>
-  $(document).ready( function() {
-    $( "#progressbar" ).progressbar({
-      value: 40
-    });
-  } );
-  </script>
-<div id="progressbar" style="width:150px;"></div>
-<br>
-#slider
-<script>
-  $(document).ready(function(){
-    $("#slider").slider();
-  });
-  </script>
-<div id="slider"  style="width:150px;"></div>
-<br>
-#tabs
-<script>
-  $(document).ready( function() {
-    $( "#tabs" ).tabs();
-  } );
-  </script>
- 
-<div id="tabs"   style="width:150px;"> 
-  <ul>
-    <li><a href="#tabs-1">1</a></li>
-    <li><a href="#tabs-2">2</a></li>
-    <li><a href="#tabs-3">3</a></li>
-  </ul>
-  <div id="tabs-1">abc</div>
-  <div id="tabs-2">def</div>
-  <div id="tabs-3">ijk</div>
-</div>
-<br>
-#accordion  <script>
-  $(document).ready( function() {
-    $( "#accordion" ).accordion();
-  } );
-  </script>
-<div id="accordion" style="width: 300px;">
-  <h3>1</h3>
-  <div>    <p>    abc    </p>  </div>
-  <h3>2</h3>
-  <div>    <p>    def    </p>  </div>
-</div>
- 
- 
+            <li class="liborder"><input type="checkbox">task1 for Personal</li>
+            <li class="liborder"><input type="checkbox">task2</li>
+            <li class="liborder"><input type="checkbox">task3</li>
+        </ol>
+        <ol id="Work">
+            <li class="liborder"><input type="checkbox" >task1 for work</li>
+             <li class="liborder"><input type="checkbox">task2</li>
+             <li class="liborder"><input type="checkbox">task3</li>
+       </ol>
+    <div id="project-dialog" style="display:none;" title="ADD A PROJECT">
+        <label for="tabs">Project name:</label><input id="projectname" type="text">
+    </div>
+    <div id="task-dialog" style="display:none;" title="ADD A TASK">
+        <label for="tabs">Task name:</label><input id="taskname" type="text">
+    </div>
+    <button id="taskbtn" style="float: right;">Add Task</button>
+  </div>
 </body>
 </html>
