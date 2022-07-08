@@ -20,11 +20,23 @@
     <script>
         $(document).ready(
             function() {
-                $("#tabs").tabs(function(){
-                    $("#tabs").tabs("refresh");
-                });
+                $("input[type=checkbox]").removeAttr("checked");
+                $("#tabs").tabs(function(){ $("#tabs").tabs("refresh"); });
                 $("ul").sortable();
-                $("ol").sortable();
+                $("ol").sortable(); 
+                $("#tabs").on("click","input[type=checkbox]",function(){
+                  $(this).closest("li").slideUp(function(){
+                    $(this).remove();
+                  });
+                });
+                $("#tabs").on("click","span.ui-icon-close",function(){
+                  var index = $(this).closest("li").index();
+                  var id = $("#ul > li:eq("+ index +") > a").attr("href");
+                  $("#ul > li:eq("+ index +") > a").remove();
+                  $(id).remove();
+                  $("#tabs").tabs("refresh");
+
+                });
                 $("#taskbtn").click(function(){
                 $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
                     "add new task":function(){
@@ -50,7 +62,7 @@
                         $("#tabs").tabs("refresh");
                         var projectname = $("#projectname").val();
                         var replacename = projectname.split(" ").join("_");
-                        $("<li style='width: auto;'><a href='#"+replacename+"'>"+projectname+"</a></li>").appendTo("#ul");
+                        $("<li style='width: auto;'><a href='#"+replacename+"'>"+projectname+"<span class='ui-icon ui-icon-close'></span></a></li>").appendTo("#ul");
                         $("#tabs").tabs("refresh");
                         $("#projectname").val("");
                         $(this).dialog("close");
@@ -66,8 +78,8 @@
   <div id="tabs"   style="width:650px;"> 
     <button id="projectbtn" style="float: right;">Add Projects</button>
     <ul id="ul">
-      <li style="width: auto;"><a href="#Personal">Personal</a></li>
-      <li style="width:auto;"><a href="#Work">Work</a></li>
+      <li style="width: auto;"><a href="#Personal">Personal<span class="ui-icon ui-icon-close"></span></a></li>
+      <li style="width:auto;"><a href="#Work">Work<span class="ui-icon ui-icon-close"></span></a></li>
     </ul>
         <ol id="Personal">
 
