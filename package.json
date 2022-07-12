@@ -1,7 +1,6 @@
 {
   "name": "todo",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,15 +12,17 @@
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
-  "homepage": "",
+  "homepage": "https://github.com/meharshjain/todo#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "method-override": "^3.0.0"
-  }
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/meharshjain/todo/issues"
+  },
+  "description": ""
 }

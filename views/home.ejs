@@ -9,81 +9,105 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
+  <script>
+    $(document).ready(
+        function() {
+            $("input[type=checkbox]").removeAttr("checked");
+            $("#tabs").tabs(function(){ $("#tabs").tabs("refresh"); });
+            $("ul").sortable();
+            $("ol").sortable(); 
+            $("#tabs").on("click","input[type=checkbox]",function(){
+              $(this).closest("li").slideUp(function(){
+                $(this).remove();
+              });
+            });
+            $("#tabs").on("click","span.ui-icon-close",function(){
+              var index = $(this).closest("li").index();
+              var id = $("#ul > li:eq("+ index +") > a").attr("href");
+              $("#ul > li:eq("+ index +") > a").remove();
+              $(id).remove();
+              $("#tabs").tabs("refresh");
+
+            });
+            $("#taskbtn").click(function(){
+            $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
+                "add new task":function(){
+                    $("#tabs").tabs("refresh");
+                    var active = $("#tabs").tabs("option","active");
+                    var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
+                    var taskname = $("#taskname").val();
+                    $("#tabs >" + nthchild).append("<li class='liborder'><input type='checkbox'>"+taskname+"</li>");
+                    $("#taskname").val("");
+                    $(this).dialog("close");
+                },
+                "cancel":function(){
+                    
+                    $("#taskname").val("");
+                    $(this).dialog("close");
+                }
+            }});})
+            
+            $("#projectbtn").click(function(){
+            $("#project-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
+                "add new project":function(){
+                    $("#tabs").tabs("refresh");
+                    var projectname = $("#projectname").val();
+                    var replacename = projectname.split(" ").join("_");
+                    $("<li style='width: auto;'><a href='#"+replacename+"'>"+projectname+"<span class='ui-icon ui-icon-close'></span></a></li>").appendTo("#ul");
+                   //mistake
+                    $("<ol id='"+replacename+"'></ol>").appendTo("#tabs");
+                    
+                    $("#tabs").tabs("refresh");
+                    $("#projectname").val("");
+                    $(this).dialog("close");
+                },
+                "cancel":function(){
+                    $("#projectname").val("");
+                    $(this).dialog("close");
+                }
+            }});})
+            
+    });
+    </script>
   <title>TO DO</title>
   <style>
     .liborder { 
         border: solid;
         width: 300px; }
+    .center {
+  margin: auto;
+  width: 52%;
+}
+#tabs .ui-tabs-active {
+    background: #5ba63c;
+}
+h1 {
+  text-align: center;
+  color: #4CAF50;
+}
+.button {
+  background-color: cornflowerblue;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;}
     </style>
 </head>
 <body>
-    <script>
-        $(document).ready(
-            function() {
-                $("input[type=checkbox]").removeAttr("checked");
-                $("#tabs").tabs(function(){ $("#tabs").tabs("refresh"); });
-                $("ul").sortable();
-                $("ol").sortable(); 
-                $("#tabs").on("click","input[type=checkbox]",function(){
-                  $(this).closest("li").slideUp(function(){
-                    $(this).remove();
-                  });
-                });
-                $("#tabs").on("click","span.ui-icon-close",function(){
-                  var index = $(this).closest("li").index();
-                  var id = $("#ul > li:eq("+ index +") > a").attr("href");
-                  $("#ul > li:eq("+ index +") > a").remove();
-                  $(id).remove();
-                  $("#tabs").tabs("refresh");
-
-                });
-                $("#taskbtn").click(function(){
-                $("#task-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
-                    "add new task":function(){
-                        $("#tabs").tabs("refresh");
-                        var active = $("#tabs").tabs("option","active");
-                        var nthchild = $("#ul > li:nth-child("+ (active+1) +") > a").attr("href");
-                        var taskname = $("#taskname").val();
-                        $("#tabs >" + nthchild).append("<li class='liborder'><input type='checkbox'>"+taskname+"</li>");
-                        $("#taskname").val("");
-                        $(this).dialog("close");
-                    },
-                    "cancel":function(){
-                        
-                        $("#taskname").val("");
-                        $(this).dialog("close");
-                    }
-                }});})
-                
-                $("#projectbtn").click(function(){
-                $("#project-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
-                    "add new project":function(){
-                        $("#tabs").tabs("refresh");
-                        var projectname = $("#projectname").val();
-                        var replacename = projectname.split(" ").join("_");
-                        $("<li style='width: auto;'><a href='#"+replacename+"'>"+projectname+"<span class='ui-icon ui-icon-close'></span></a></li>").appendTo("#ul");
-                       //mistake
-                        $("<ol id='"+replacename+"'></ol>").appendTo("#tabs");
-                        
-                        $("#tabs").tabs("refresh");
-                        $("#projectname").val("");
-                        $(this).dialog("close");
-                    },
-                    "cancel":function(){
-                        $("#projectname").val("");
-                        $(this).dialog("close");
-                    }
-                }});})
-                
-        });
-        </script>
-  <div id="tabs"   style="width:650px;"> 
-    <button id="projectbtn" style="float: right;">Add Projects</button>
-    <ul id="ul">
+    <div class="center" style="margin-top: 100px; border: 3px solid green;">
+        
+    <button class="button" id="projectbtn" style=" margin-top: 50px; float: right;">Add Projects</button>
+    <h1 class="center" style="padding-bottom: 52px">To Do List</h1>
+  <div id="tabs"style="width:650px;"> 
+    
+    <ul id="ul" style="background-color: cornflowerblue;">
       <li style="width: auto;"><a href="#Personal">Personal<span class="ui-icon ui-icon-close"></span></a></li>
       <li style="width:auto;"><a href="#Work">Work<span class="ui-icon ui-icon-close"></span></a></li>
-    </ul>
-        <ol id="Personal">
+    </ul><ol id="Personal">
 
             <li class="liborder"><input type="checkbox">task1 for Personal</li>
             <li class="liborder"><input type="checkbox">task2</li>
@@ -94,13 +118,15 @@
              <li class="liborder"><input type="checkbox">task2</li>
              <li class="liborder"><input type="checkbox">task3</li>
        </ol>
+       
+    <button class="button" id="taskbtn" style=" margin-bottom: 170px; float: right;">Add Task</button></div>
+        
     <div id="project-dialog" style="display:none;" title="ADD A PROJECT">
         <label for="tabs">Project name:</label><input id="projectname" type="text">
     </div>
     <div id="task-dialog" style="display:none;" title="ADD A TASK">
         <label for="tabs">Task name:</label><input id="taskname" type="text">
     </div>
-    <button id="taskbtn" style="float: right;">Add Task</button>
   </div>
 </body>
 </html>
